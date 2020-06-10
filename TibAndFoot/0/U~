@@ -1,0 +1,167 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     3.1                                |
+|   \\  /    A nd           | Web:         http://www.extend-project.de       |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    location    "0";
+    object      U;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 0 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+//     TIBIALOAD
+//     {
+//       type            timeVaryingFixedDisplacement;
+//       outOfBounds     clamp;
+//       fileName        "$FOAM_CASE/constant/timeVsTopDisp";
+//       value           uniform (0 0 0);
+//    }
+
+    TIBIALOAD
+    {
+    type            solidTraction;
+    traction        uniform ( 0 0 2000 );
+    pressure        uniform 0;
+    value           uniform (0 0 0);
+    }
+
+    FOOTGROUND
+    {
+        type            fixedDisplacement;
+        value           uniform (0 0 0);
+    }
+
+    talotherSide
+    {
+      type                 solidContact;
+      master               yes;
+      contactActive        yes;
+      rigidMaster          no;
+      shadowPatch          otherSide;
+      // philipc: always use ggi
+      interpolationMethod  ggi;
+      //interpolationMethod  patchToPatch;
+      projectionAlgo       visible;
+      projectionDir        contactSphere;
+      //projectionDir        vector;
+      correctionFrequency   1; // philipc: always use 1
+      normalContactModel     standardPenalty;
+      standardPenaltyNormalModelDict
+      {
+        // philip: lower values help convergence but may slow it
+          //relaxationFactor               0.1;
+        relaxationFactor               0.1;
+        // philipc: lower values help convergence but may result in larger
+        // overlap
+        penaltyScale                   1;
+        //returnScale                    1.5;
+        contactGapTol                  1e-7;
+
+        // philipc: this should be no; this is used to disregard penetration
+        // of greater than the limit NOT to reduce the penetration; it should
+        // probably be renamed to avoid confusion
+        limitPenetration               no;
+        penetrationLimit               -0.03;
+        limitPressure                  no;
+        pressureLimit                  1e12;
+        correctMissedVertices          yes;
+
+        // philipc: always use pointGGI
+        distanceMethod                 pointGGI;
+        //distanceMethod                 point;
+        //distanceMethod                 face;
+        // philip: set to no: this can affect convergence
+        oscillationCorrection          no;
+        smoothingSteps                 1;
+        infoFrequency                  10;
+      }
+      frictionContactModel   frictionless;
+      //frictionContactModel   standardPenalty;
+      //standardPenaltyFrictionModelDict
+      //	{
+      //      relaxationFactor               0.1;
+      //      penaltyScale                   1;
+      //      oscillationCorrection          yes;
+      //      smoothingSteps                 1;
+      //      infoFrequency                  10;
+      //
+      //      frictionLaw       coulomb;
+      //      frictionLawDict
+      //        {
+      //          frictionCoeff     0.1;
+      //        }
+      //	}
+      value                uniform (0 0 0);
+    }
+
+    otherSide
+    {
+      type                 solidContact;
+      shadowPatch          talotherSide;
+      master               no;
+      contactActive        yes;
+      value                uniform (0 0 0);
+    }
+
+    FOOT
+    {
+        type            solidTraction;
+        traction        uniform (0 0 0);
+        pressure        uniform 0;
+        value           uniform (0 0 0);
+    }
+
+    //FOOTGROUND
+    //{
+    //    type            solidTraction;
+    //    traction        uniform ( 0 0 0 );
+    //    pressure        uniform 0;
+    //    value           uniform (0 0 0);
+    //}
+    TIBIA
+    {
+        type            solidTraction;
+        traction        uniform ( 0 0 0 );
+        pressure        uniform 0;
+        value           uniform (0 0 0);
+    }
+
+    talsides
+    {
+     type            solidTraction;
+     traction        uniform ( 0 0 0 );
+     pressure        uniform 0;
+     value           uniform (0 0 0);
+    }
+
+    sides
+    {
+      type            solidTraction;
+      traction        uniform ( 0 0 0 );
+      pressure        uniform 0;
+      value           uniform (0 0 0);
+    }
+    
+    //back
+    //{
+    //    type            empty;
+    // }
+    //front
+    //{
+    //    type            empty;
+    //}
+}
+
+// ************************************************************************* //
