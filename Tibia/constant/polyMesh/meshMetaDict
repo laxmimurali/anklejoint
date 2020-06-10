@@ -15,12 +15,12 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-surfaceFile     "tib8plus2.stl";
+surfaceFile     "tibmesh_8pl2.stl";
 
 surfaceMeta
 {
-    nPoints         37035;
-    nFacets         74066;
+    nPoints         18095;
+    nFacets         36186;
     nPatches        3;
     nFeatureEdges   0;
     patches
@@ -28,17 +28,17 @@ surfaceMeta
         TIBIA
         {
             type            empty;
-            nFacets         64934;
+            nFacets         31708;
         }
         TIBIATTACH
         {
             type            empty;
-            nFacets         6826;
+            nFacets         3342;
         }
         TIBIALOAD
         {
             type            empty;
-            nFacets         2306;
+            nFacets         1136;
         }
     }
     pointSubsets
