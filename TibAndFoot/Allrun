@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# create the mesh
+#runApplication fluentMeshToFoam threeCylinders.msh
+
+# change the type of front and back to be empty
+#runApplication changeDictionary
+
+# create contact zones and remove sets first
+echo "Creating face zones"
+\rm -rf constant/polyMesh/sets
+runApplication setSet -batch batch.setSet
+runApplication setsToZones -noFlipMap
+
+# remove VTK files
+\rm -rf VTK
+
+# run the solver
+#runApplication unsElasticSolidFoam

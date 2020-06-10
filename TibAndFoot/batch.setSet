@@ -1,0 +1,5 @@
+faceSet talotherSideFaceZone new patchToFace talotherSide
+faceSet otherSideFaceZone new patchToFace otherSide
+pointSet talotherSidePointZone new faceToPoint talotherSideFaceZone all
+pointSet otherSidePointZone new faceToPoint otherSideFaceZone all
+quit
