@@ -1,0 +1,53 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | foam-extend: Open Source CFD                    |
+|  \\    /   O peration     | Version:     3.1                                |
+|   \\  /    A nd           | Web:         http://www.extend-project.de       |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "constant/polyMesh";
+    object      meshMetaDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+surfaceFile     "footmeshnew.stl";
+
+surfaceMeta
+{
+    nPoints         73297;
+    nFacets         146596;
+    nPatches        3;
+    nFeatureEdges   0;
+    patches
+    {
+        FOOT
+        {
+            type            empty;
+            nFacets         132885;
+        }
+        FOOTGROUND
+        {
+            type            empty;
+            nFacets         9835;
+        }
+        FOOTATTACH
+        {
+            type            empty;
+            nFacets         3876;
+        }
+    }
+    pointSubsets
+    {
+    }
+    facetSubsets
+    {
+    }
+    featureEdgeSubsets
+    {
+    }
+}
